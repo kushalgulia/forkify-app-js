@@ -4,6 +4,8 @@ import icons from 'url:../../img/icons.svg';
 class RecipeView {
   #data;
   #parentEl = document.querySelector('.recipe');
+  #errorMessage = 'We could not find that recipe';
+  #message = '';
   render(data) {
     this.#data = data;
     this.#clear();
@@ -22,6 +24,34 @@ class RecipeView {
   }
   addHandlerRender(cb) {
     ['hashchange', 'load'].forEach(event => window.addEventListener(event, cb));
+  }
+  renderError(message = this.#errorMessage) {
+    const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}. Please try again!</p>
+      </div>
+    `;
+    this.#clear();
+    this.#parentEl.insertAdjacentHTML('afterbegin', markup);
+  }
+  renderMessage(message = this.#message) {
+    const markup = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}.</p>
+      </div>
+    `;
+    this.#clear();
+    this.#parentEl.insertAdjacentHTML('afterbegin', markup);
   }
   #clear() {
     this.#parentEl.innerHTML = '';
