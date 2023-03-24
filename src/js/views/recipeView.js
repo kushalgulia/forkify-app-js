@@ -11,14 +11,17 @@ class RecipeView {
   }
   renderSpinner() {
     const markup = `
-      <div class="spinner">
-        <svg>
-          <use href="${icons}#icon-loader"></use>
-        </svg>
-      </div>
+    <div class="spinner">
+    <svg>
+    <use href="${icons}#icon-loader"></use>
+    </svg>
+    </div>
     `;
     this.#clear();
     this.#parentEl.insertAdjacentHTML('afterbegin', markup);
+  }
+  addHandlerRender(cb) {
+    ['hashchange', 'load'].forEach(event => window.addEventListener(event, cb));
   }
   #clear() {
     this.#parentEl.innerHTML = '';
