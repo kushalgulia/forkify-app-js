@@ -1,5 +1,9 @@
 import { TIMEOUT_SEC } from './config';
 
+/**
+ * @param {number} s seconds
+ * @returns rejectd promise after s seconds
+ */
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -8,6 +12,11 @@ const timeout = function (s) {
   });
 };
 
+/**
+ * combines fetch and json into a single promise
+ * @param {string} url to be fetched
+ * @returns promise with the result of json
+ */
 export const getJSON = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
