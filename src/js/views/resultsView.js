@@ -2,7 +2,7 @@ import icons from 'url:../../img/icons.svg';
 import View from './view';
 
 class ResultsView extends View {
-  _parentEl = document.querySelector('.search-results');
+  _parentEl = document.querySelector('.results');
   _errorMessage = 'No results found for your query. Try something else';
   _message = 'Happy Cooking';
   _generateMarkup() {
@@ -11,7 +11,7 @@ class ResultsView extends View {
   _generateRecipePreview(recipe) {
     return `
     <li class="preview">
-        <a class="preview__link preview__link--active" href="#${recipe.id}">
+        <a class="preview__link " href="#${recipe.id}">
         <figure class="preview__fig">
             <img src="${recipe.image}" alt="${recipe.title}" />
         </figure>
