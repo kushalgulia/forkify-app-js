@@ -2,12 +2,13 @@ import * as model from '../model/model.js';
 import recipeView from '../views/recipeView.js';
 import searchView from '../views/searchView.js';
 import resultsView from '../views/resultsView.js';
+import paginationView from '../views/paginationView.js';
 
 ////////////////////////////////////////////////////////////////
 //parcel config
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 ///////////////////////////////////////////////////////////////
 const controlRecipes = async function () {
   try {
@@ -33,16 +34,24 @@ const controlSearchResults = async function () {
     resultsView.renderSpinner();
     //load search results
     await model.loadSearchResults(query);
-    //display search results
-    // console.log(model.getResultsPerPage(2));
+    //display search results for the first page
     resultsView.render(model.getResultsPerPage());
+    //render pagination for the first page
+    paginationView.render(model.state.search);
   } catch (err) {
     console.log(err);
   }
+};
+const controlPagination = function (goToPage) {
+  //render results for the page
+  resultsView.render(model.getResultsPerPage(goToPage));
+  //render pagination for the page
+  paginationView.render(model.state.search);
 };
 
 const init = function () {
   recipeView.addHandler(controlRecipes);
   searchView.addHandler(controlSearchResults);
+  paginationView.addHandler(controlPagination);
 };
 init();

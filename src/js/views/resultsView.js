@@ -3,7 +3,7 @@ import View from './view';
 
 class ResultsView extends View {
   _parentEl = document.querySelector('.results');
-  _errorMessage = 'No results found for your query. Try something else';
+  _errorMessage = 'No results found for your query. Try something else!';
   _message = 'Happy Cooking';
   _generateMarkup() {
     return this._data.map(this._generateRecipePreview).join('');
