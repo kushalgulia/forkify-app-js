@@ -13,6 +13,31 @@ export default class View {
     this.#clear();
     this._parentEl.insertAdjacentHTML('afterbegin', this._generateMarkup());
   }
+  update(data) {
+    //set the data to the update data
+    this._data = data;
+    //generate markup with update data
+    const markup = this._generateMarkup();
+    //create virtual dom using the update data
+    const newDom = document.createRange().createContextualFragment(markup);
+    //compare the virtual dom and the real dom
+    //replace all the changed text
+    const newDomEl = newDom.querySelectorAll('*');
+    const domEl = this._parentEl.querySelectorAll('*');
+
+    newDomEl.forEach((el, i) => {
+      if (!el.isEqualNode(domEl[i]) && domEl[i].firstChild?.nodeValue.trim())
+        domEl[i].textContent = el.textContent;
+    });
+    //replace all the changed attributes
+    newDomEl.forEach((el, i) => {
+      if (!el.isEqualNode(domEl[i])) {
+        Array.from(el.attributes).forEach(attr =>
+          domEl[i].setAttribute(attr.name, attr.value)
+        );
+      }
+    });
+  }
   renderSpinner() {
     const markup = `
     <div class="spinner">
