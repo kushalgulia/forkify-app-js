@@ -3,6 +3,7 @@ import recipeView from '../views/recipeView.js';
 import searchView from '../views/searchView.js';
 import resultsView from '../views/resultsView.js';
 import paginationView from '../views/paginationView.js';
+import bookmarksView from '../views/bookmarksView.js';
 
 ////////////////////////////////////////////////////////////////
 //parcel config
@@ -16,10 +17,11 @@ const controlRecipes = async function () {
     if (!id) return;
     //render spinner
     recipeView.renderSpinner();
+    //mark the recipe as selected
+    resultsView.update(model.getResultsPerPage());
+    bookmarksView.update(model.state.bookmarks);
     //load recipe
     await model.loadRecipe(id);
-    //mark the recipe
-    resultsView.update(model.getResultsPerPage());
     //render recipe
     recipeView.render(model.state.recipe);
   } catch (err) {
@@ -62,6 +64,8 @@ const controlBookmarks = function () {
   else model.deleteBookmark(model.state.recipe.id);
   //render recipeView with updated data
   recipeView.update(model.state.recipe);
+  //render bookmarks data
+  bookmarksView.render(model.state.bookmarks);
 };
 const init = function () {
   recipeView.addHandler(controlRecipes);

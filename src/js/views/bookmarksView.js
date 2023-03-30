@@ -2,13 +2,13 @@
 import { generateRecipePreview } from './recipePreview.js';
 import View from './view';
 
-class ResultsView extends View {
-  _parentEl = document.querySelector('.results');
-  _errorMessage = 'No results found for your query. Try something else!';
+class BookmarksView extends View {
+  _parentEl = document.querySelector('.bookmarks__list');
+  _errorMessage = 'No bookmarks yet! Click the bookmark icon to add a recipe.';
   _message = 'Happy Cooking';
   _generateMarkup() {
     return this._data.map(generateRecipePreview).join('');
   }
 }
 
-export default new ResultsView();
+export default new BookmarksView();

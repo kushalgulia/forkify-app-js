@@ -7,10 +7,14 @@ export default class View {
   addHandler(cb) {}
   _generateMarkup() {}
   render(data) {
+    //render error if no data
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
+    //set the data to the new data
     this._data = data;
+    //clear the parent element
     this.#clear();
+    //insert the markup generated inside the parent element
     this._parentEl.insertAdjacentHTML('afterbegin', this._generateMarkup());
   }
   update(data) {
