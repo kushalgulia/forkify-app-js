@@ -36,7 +36,7 @@ const controlSearchResults = async function () {
     //load search results
     await model.loadSearchResults(query);
     //display search results for the first page
-    resultsView.render(model.getResultsPerPage());
+    resultsView.render(model.getResultsPerPage(1));
     //render pagination for the first page
     paginationView.render(model.state.search);
   } catch (err) {
@@ -56,9 +56,17 @@ const controlServing = function (newServings) {
   //render the update data in recipeView
   recipeView.update(model.state.recipe);
 };
+const controlBookmarks = function () {
+  //update the data inside model
+  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+  else model.deleteBookmark(model.state.recipe.id);
+  //render recipeView with updated data
+  recipeView.update(model.state.recipe);
+};
 const init = function () {
   recipeView.addHandler(controlRecipes);
   recipeView.addHandlerServing(controlServing);
+  recipeView.addHandlerBookmark(controlBookmarks);
   searchView.addHandler(controlSearchResults);
   paginationView.addHandler(controlPagination);
 };
