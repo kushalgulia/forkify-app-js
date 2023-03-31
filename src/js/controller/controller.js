@@ -4,7 +4,7 @@ import searchView from '../views/searchView.js';
 import resultsView from '../views/resultsView.js';
 import paginationView from '../views/paginationView.js';
 import bookmarksView from '../views/bookmarksView.js';
-
+import addRecipeView from '../views/addRecipeView.js';
 ////////////////////////////////////////////////////////////////
 //parcel config
 // if (module.hot) {
@@ -25,6 +25,7 @@ const controlRecipes = async function () {
     await model.loadRecipe(id);
     //render recipe
     recipeView.render(model.state.recipe);
+    console.log(model.state.recipe);
   } catch (err) {
     //render error
     recipeView.renderError();
@@ -68,13 +69,23 @@ const controlBookmarks = function () {
   //render bookmarks data
   bookmarksView.render(model.state.bookmarks);
 };
+const controlAddRecipe = function (newRecipe) {
+  console.log(newRecipe);
+};
 const init = function () {
   //render all the bookmarks
   bookmarksView.render(model.state.bookmarks);
+  //url hash
   recipeView.addHandler(controlRecipes);
+  //servings btn
   recipeView.addHandlerServing(controlServing);
+  //bookmark btn
   recipeView.addHandlerBookmark(controlBookmarks);
+  //search btn
   searchView.addHandler(controlSearchResults);
+  //pagination btn
   paginationView.addHandler(controlPagination);
+  //upload btn
+  addRecipeView.addHandler(controlAddRecipe);
 };
 init();
