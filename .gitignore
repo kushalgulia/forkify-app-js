@@ -2,3 +2,4 @@ node_modules
 .prettierrc
 .parcel-cache
 dist
+forkey.js

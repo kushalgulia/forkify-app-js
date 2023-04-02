@@ -5,6 +5,7 @@ import resultsView from '../views/resultsView.js';
 import paginationView from '../views/paginationView.js';
 import bookmarksView from '../views/bookmarksView.js';
 import addRecipeView from '../views/addRecipeView.js';
+
 ////////////////////////////////////////////////////////////////
 //parcel config
 // if (module.hot) {
@@ -31,6 +32,7 @@ const controlRecipes = async function () {
     recipeView.renderError();
   }
 };
+
 const controlSearchResults = async function () {
   try {
     //get the query
@@ -47,6 +49,7 @@ const controlSearchResults = async function () {
     console.log(err);
   }
 };
+
 const controlPagination = function (goToPage) {
   //render results for the page
   resultsView.render(model.getResultsPerPage(goToPage));
@@ -60,6 +63,7 @@ const controlServing = function (newServings) {
   //render the update data in recipeView
   recipeView.update(model.state.recipe);
 };
+
 const controlBookmarks = function () {
   //update the data inside model
   if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
@@ -69,9 +73,25 @@ const controlBookmarks = function () {
   //render bookmarks data
   bookmarksView.render(model.state.bookmarks);
 };
-const controlAddRecipe = function (newRecipe) {
-  console.log(newRecipe);
+
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    //wait for the recipe to upload
+    await model.uploadRecipe(newRecipe);
+    //render success message
+    addRecipeView.renderMessage('Recipe uploaded successfully');
+    //render the recipe in revipe view
+    recipeView.render(model.state.recipe);
+    //update the url
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+    //re-render the bookmarks view
+    bookmarksView.render(model.state.bookmarks);
+  } catch (err) {
+    console.log(err);
+    addRecipeView.renderError(err.message);
+  }
 };
+
 const init = function () {
   //render all the bookmarks
   bookmarksView.render(model.state.bookmarks);

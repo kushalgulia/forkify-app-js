@@ -21,15 +21,15 @@ class AddRecipeView extends View {
       cb(dataObj);
     });
   }
-  #toggleHidden() {
+  _toggleHidden() {
     [this.#overlay, this.#window].forEach(el => el.classList.toggle('hidden'));
   }
   #addHandlerOpen() {
-    this.#btnOpen.addEventListener('click', this.#toggleHidden.bind(this));
+    this.#btnOpen.addEventListener('click', this._toggleHidden.bind(this));
   }
   #addHandlerClose() {
     [this.#overlay, this.#btnClose].forEach(el =>
-      el.addEventListener('click', this.#toggleHidden.bind(this))
+      el.addEventListener('click', this._toggleHidden.bind(this))
     );
   }
 }
