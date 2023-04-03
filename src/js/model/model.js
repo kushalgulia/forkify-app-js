@@ -1,6 +1,6 @@
 import { API_URL, RES_PER_PAGE } from '../config.js';
-import { AJAX, getJSON, postJSON } from '../helpers.js';
-import key from '../../../forkey.js';
+import { AJAX } from '../helpers.js';
+
 //////////////////////////////////////////////
 
 export const state = {
@@ -30,7 +30,7 @@ const getFormattedRecipeData = function (recipe) {
 export const loadRecipe = async function (id) {
   try {
     //fetch data
-    const data = await AJAX(`${API_URL}${id}?key=${key}`);
+    const data = await AJAX(`${API_URL}${id}?key=${process.env.KEY}`);
     let { recipe } = data.data;
     //store the data inside state
     state.recipe = getFormattedRecipeData(recipe);
@@ -46,7 +46,9 @@ export const loadSearchResults = async function (query) {
     if (!query) return;
     state.search.query = query;
     //fetch data
-    const data = await AJAX(`${API_URL}?search=${query}&key=${key}`);
+    const data = await AJAX(
+      `${API_URL}?search=${query}&key=${process.env.KEY}`
+    );
     //store the data inside state
     state.search.results = data.data.recipes.map(recipe => {
       return {
@@ -126,7 +128,7 @@ export const uploadRecipe = async function (newRecipe) {
       ingredients,
     };
     //recive the uploaded recipe
-    const data = await AJAX(`${API_URL}?key=${key}`, recipeUpload);
+    const data = await AJAX(`${API_URL}?key=${process.env.KEY}`, recipeUpload);
     let { recipe } = data.data;
     recipe = getFormattedRecipeData(recipe);
     //set the recipe as the current recipe
