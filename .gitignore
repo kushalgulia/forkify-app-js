@@ -4,3 +4,4 @@ node_modules
 dist
 forkey.js
 diagrams
+dist-build
